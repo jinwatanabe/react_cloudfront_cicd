@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+    build:
+        commands:
+            - echo Build React...
+            - docker-compose run --rm app sh -c 'yarn install'
+            - docker-compose run --rm app npm run build
+            - echo Finish Build!!
+
+    post_build:
+        commands:
+            - echo Copy S3...
+            - aws s3 sync app/build s3://react-cicd-220815
+            - echo Delete CloudFront cache...
+            - aws cloudfront create-invalidation --distribution-id E358DN3F9EP401 --paths "/index.html"
+            - echo Success!
+cache:
+    paths:
+        - app/node_modules/**/*
