@@ -4,7 +4,7 @@ import './App.css';
 function App() {
 
   const clickBtn = (): void => {
-    alert("Hello World")
+    alert("Hello World!")
   }
 
   return (
